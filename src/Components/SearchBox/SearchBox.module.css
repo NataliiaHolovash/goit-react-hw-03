@@ -12,6 +12,7 @@
         font-weight: bold;
         color: #007bff;
         text-transform: uppercase;
+        margin-top: 40px;
         margin-bottom: 20px;
         background: linear-gradient(45deg, #007bff, #6610f2);
         -webkit-background-clip: text;
