@@ -16,7 +16,7 @@
         background: linear-gradient(45deg, #007bff, #6610f2);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        letter-spacing: 2px;
+        letter-spacing: 0.4px;
 }
 
 .input {

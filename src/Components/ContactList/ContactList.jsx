@@ -2,6 +2,8 @@ import css from "./ContactList.module.css";
 import Contact from "../Contact/Contact";
 
 const ContactList = ({ contacts, onDelete }) => {
+if (contacts.length === 0) return null;
+
   return (
     <ul className={css.list}>
       {contacts.map(({ id, name, number }) => {
