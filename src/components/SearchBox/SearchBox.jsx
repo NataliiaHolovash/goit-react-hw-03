@@ -1,14 +1,22 @@
-import css from "./SearchBox.module.css";
+import { nanoid } from 'nanoid';
+import style from './SearchBox.module.css';
 
 const SearchBox = ({ value, onFilter }) => {
+  const id = nanoid();
+
   return (
-    <div className={css.search}>
-      <p className={css.title}>Find contacts by name</p>
+    <div className={style.wrap}>
+      <label htmlFor={`filter-${id}`}>Знайти контакт за іменем</label>
       <input
-        type="text"
-        className={css.input}
+        className={style.field}
+        type='input'
+        name='filter'
+        id={`filter-${id}`}
+        autoComplete='on'
         value={value}
-        onChange={() => onFilter(event.target.value)}
+        onChange={e => {
+          onFilter(e.target.value);
+        }}
       />
     </div>
   );

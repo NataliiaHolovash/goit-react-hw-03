@@ -1,19 +1,28 @@
-import css from "./ContactList.module.css";
-import Contact from "../Contact/Contact";
+import Contact from '../Contact/Contact';
+import style from './ContactList.module.css';
 
-const ContactList = ({ contacts, onDelete }) => {
-if (contacts.length === 0) return null;
-
+const ContactList = ({ value, onDelete }) => {
   return (
-    <ul className={css.list}>
-      {contacts.map(({ id, name, number }) => {
-        return (
-          <li key={id} className={css.item}>
-            <Contact id={id} name={name} number={number} onDelete={onDelete} />
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      {value.length > 0 ? (
+        <ul className={style.list}>
+          {value.map(contact => {
+            return (
+              <li key={contact.id} className={style.item}>
+                <Contact
+                  contactName={contact.name}
+                  contactNumber={contact.number}
+                  contactId={contact.id}
+                  onDelete={onDelete}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <span className={style.emptyList}>Поки що немає жодного контакту</span>
+      )}
+    </>
   );
 };
 

@@ -1,87 +1,75 @@
-import css from "./ContactForm.module.css";
-
-import { useId } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { nanoid } from "nanoid";
+import style from './ContactForm.module.css';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { nanoid } from 'nanoid';
+import { Button } from '@mui/material';
+import * as Yup from 'yup';
 
 const ContactForm = ({ onAdd }) => {
-  const nameFieldId = useId();
-  const numberFieldId = useId();
-
-  const initialValues = {
-    username: "",
-    number: "",
-  };
-
-  const validationSchema = Yup.object().shape({
-    username: Yup.string()
-      .required("Required!")
-      .min(3, "Too short!")
-      .max(50, "Name must be at most 50 characters!")
-      .test(
-        "trim",
-        "Name cannot be only spaces!",
-        (value) => value.trim() !== ""
-      ),
+  const FeedbackSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(2, 'Потрібно додати більше букв!')
+      .max(50, 'Занадто довгий текст!')
+      .required('Потрібно заповнити поле'),
     number: Yup.string()
-      .required("Required!")
-      .min(3, "Too short!")
-      .max(50, "Number must be at most 50 characters!")
-      .matches(/^[0-9-]+$/, "Number must contain only digits and -"),
+      .min(3, 'Потрібно додати більше цифр!')
+      .max(50, 'Занадто довгий номер!')
+      .required('Потрібно заповнити поле'),
   });
 
   const handleSubmit = (values, actions) => {
-    const newContact = {
-      id: nanoid(),
-      name: values.username,
-      number: values.number,
-    };
+    const userName = values.name.trim();
+    const userNumber = values.number.trim();
 
-    onAdd(newContact);
+    onAdd({ name: userName, number: userNumber });
     actions.resetForm();
   };
 
+  const id = nanoid();
+
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{ name: '', number: '' }}
       onSubmit={handleSubmit}
-      validationSchema={validationSchema}
+      validationSchema={FeedbackSchema}
     >
-      <Form className={css.form}>
-        <div className={css.formElement}>
-          <label htmlFor={nameFieldId} className={css.label}>
-            Name
-          </label>
+      <Form className={style.form}>
+        <div className={style.wrap}>
+          <label htmlFor={`name-${id}`}>Імʼя</label>
           <Field
-            type="text"
-            name="username"
-            id={nameFieldId}
-            className={css.input}
+            type='text'
+            name='name'
+            id={`name-${id}`}
+            className={style.field}
+            autoComplete='on'
+            placeholder='Jack Robinson'
           />
           <ErrorMessage
-            name="username"
-            component="span"
-            className={css.warning}
+            name='name'
+            component='span'
+            className={style.errorText}
           />
         </div>
-        <div className={css.formElement}>
-          <label htmlFor={numberFieldId}>Number</label>
+
+        <div className={style.wrap}>
+          <label htmlFor={`number-${id}`}>Телефон</label>
           <Field
-            type="text"
-            name="number"
-            id={numberFieldId}
-            className={css.input}
+            type='text'
+            name='number'
+            id={`number-${id}`}
+            className={style.field}
+            placeholder='000-00-00'
+            autoComplete='on'
           />
           <ErrorMessage
-            className={css.warning}
-            name="number"
-            component="span"
+            name='number'
+            component='span'
+            className={style.errorText}
           />
         </div>
-        <button type="submit" className={css.btn}>
-          Add contact
-        </button>
+
+        <Button variant='contained' color='success' type='submit'>
+          Додати контакт
+        </Button>
       </Form>
     </Formik>
   );
